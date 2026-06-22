@@ -66,6 +66,26 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 .rbtn-ghost{background:#f5f0eb;color:#8a7b6b;border:1.5px solid #e0d8cf}
 .rbtn-ghost:hover{background:#ede8e2;color:#5a4a3a}
 
+.share-panel{display:none;position:fixed;bottom:0;left:0;width:100%;z-index:300;background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 32px;box-shadow:0 -8px 30px rgba(0,0,0,.15)}
+.share-panel.on{display:block}
+.share-panel h4{text-align:center;font-size:1em;color:#3a3028;margin-bottom:20px}
+.share-icons{display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.share-icon{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;border:none;background:none;padding:8px}
+.share-icon .ico{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5em;transition:transform .2s}
+.share-icon .ico:active{transform:scale(.9)}
+.share-icon span{font-size:.75em;color:#888}
+.ico-wx{background:#07c160;color:#fff}
+.ico-wb{background:#e6162d;color:#fff}
+.ico-qq{background:#12b7f5;color:#fff}
+.ico-link{background:#f5f0eb;color:#8a7b6b}
+.share-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:290}
+.share-overlay.on{display:block}
+.qr-box{text-align:center;padding:20px}
+.qr-box img{border-radius:8px;margin-bottom:8px}
+.qr-box p{font-size:.85em;color:#888}
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);color:#fff;padding:12px 28px;border-radius:8px;font-size:.9em;z-index:400;display:none}
+.toast.on{display:block}
+
 .ft{text-align:center;color:#c0b5a8;font-size:.78em;padding:20px 0 30px;letter-spacing:.5px}
 
 @media(max-width:480px){
@@ -156,6 +176,19 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 <div class="rc" id="rc"></div>
 </div>
 
+<div class="share-overlay" id="shareOverlay"></div>
+<div class="share-panel" id="sharePanel">
+<h4>分享到</h4>
+<div class="share-icons">
+<div class="share-icon" id="shareWx"><div class="ico ico-wx">&#x1F4AC;</div><span>微信</span></div>
+<div class="share-icon" id="shareWb"><div class="ico ico-wb">W</div><span>微博</span></div>
+<div class="share-icon" id="shareQq"><div class="ico ico-qq">Q</div><span>QQ</span></div>
+<div class="share-icon" id="shareLink"><div class="ico ico-link">&#x1F517;</div><span>复制链接</span></div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <div class="ft">* 以上测试仅供娱乐，愿你今天也有好心情 *</div>
 
 <script>
@@ -229,17 +262,74 @@ document.getElementById("ovBg").addEventListener("click", function() {
 
 function shareResult() {
   if (navigator.share) {
-    navigator.share({title:"\u6D4B\u6D4B\u4F60\u7684\u9690\u85CF\u6027\u683C\u989C\u8272", text:"\u6211\u521A\u6D4B\u4E86\u201C\u9690\u85CF\u6027\u683C\u989C\u8272\u201D\u6D4B\u8BD5\uFF0C\u5FEB\u6765\u8BD5\u8BD5\uFF01", url:location.href});
+    navigator.share({title:"\u6D4B\u6D4B\u4F60\u7684\u9690\u85CF\u6027\u683C\u989C\u8272", text:"\u6211\u521A\u6D4B\u4E86\u201C\u9690\u85CF\u6027\u683C\u989C\u8272\u201D\u6D4B\u8BD5\uFF0C\u5FEB\u6765\u8BD5\u8BD5\uFF01", url:location.href}).catch(function(){});
   } else {
-    var t = document.createElement("textarea");
-    t.value = location.href;
-    document.body.appendChild(t);
-    t.select();
-    document.execCommand("copy");
-    document.body.removeChild(t);
-    alert("\u94FE\u63A5\u5DF2\u590D\u5236\uFF0C\u53D1\u7ED9\u670B\u53CB\u5427\uFF01");
+    document.getElementById("sharePanel").className = "share-panel on";
+    document.getElementById("shareOverlay").className = "share-overlay on";
   }
 }
+
+document.getElementById("shareOverlay").addEventListener("click", function() {
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+});
+
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast on";
+  setTimeout(function(){ t.className = "toast"; }, 2000);
+}
+
+function copyText(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function(){ showToast("\u94FE\u63A5\u5DF2\u590D\u5236\uFF01"); });
+  } else {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    showToast("\u94FE\u63A5\u5DF2\u590D\u5236\uFF01");
+  }
+}
+
+var shareUrl = location.href;
+var shareText = "\u6211\u521A\u6D4B\u4E86\u201C\u9690\u85CF\u6027\u683C\u989C\u8272\u201D\u6D4B\u8BD5\uFF0C\u5FEB\u6765\u8BD5\u8BD5\uFF01";
+
+document.getElementById("shareWx").addEventListener("click", function() {
+  var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(shareUrl);
+  document.getElementById("rc").innerHTML =
+    '<div class="qr-box">' +
+      '<img src="' + qrUrl + '" width="200" height="200" alt="QR">' +
+      '<p>\u7528\u5FAE\u4FE1\u626B\u4E00\u626B\u5206\u4EAB\u7ED9\u670B\u53CB</p>' +
+      '<div style="margin-top:16px"><button class="rbtn rbtn-ghost" onclick="document.getElementById(\'ov\').className=\'ov\'">\u5173\u95ED</button></div>' +
+    '</div>';
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+  document.getElementById("ov").className = "ov on";
+});
+
+document.getElementById("shareWb").addEventListener("click", function() {
+  var u = "https://service.weibo.com/share/share.php?url=" + encodeURIComponent(shareUrl) + "&title=" + encodeURIComponent(shareText);
+  window.open(u, "_blank");
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+});
+
+document.getElementById("shareQq").addEventListener("click", function() {
+  var u = "https://connect.qq.com/widget/shareqq/index.html?url=" + encodeURIComponent(shareUrl) + "&title=" + encodeURIComponent(shareText);
+  window.open(u, "_blank");
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+});
+
+document.getElementById("shareLink").addEventListener("click", function() {
+  copyText(shareUrl);
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+});
 </script>
 </body>
 </html>
