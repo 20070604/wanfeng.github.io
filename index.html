@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>测测你的隐藏性格颜色</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f0eb;min-height:100vh;color:#333}
+.wrap{max-width:700px;margin:0 auto;padding:20px}
+.hd{text-align:center;padding:36px 0 18px}
+.hd h1{font-size:2em;color:#5a4a3a;margin-bottom:8px}
+.hd p{color:#8a7b6b;font-size:.95em}
+.pbar{position:sticky;top:0;z-index:100;background:#f5f0eb;padding:10px 20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.pbar-in{max-width:700px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.pbar-track{flex:1;height:8px;background:#e0d8cf;border-radius:4px;overflow:hidden}
+.pbar-fill{height:100%;width:0;background:linear-gradient(90deg,#e8a87c,#d4776b,#c94c6e);border-radius:4px;transition:width .4s}
+.pbar-txt{font-size:.85em;color:#8a7b6b;white-space:nowrap}
+.qc{background:#fff;border-radius:14px;padding:26px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.05);border:2px solid transparent;transition:border-color .3s}
+.qc.done{border-color:#e8a87c}
+.qh{display:flex;align-items:flex-start;gap:10px;margin-bottom:16px}
+.qn{background:linear-gradient(135deg,#e8a87c,#d4776b);color:#fff;font-weight:700;width:30px;height:30px;line-height:30px;text-align:center;border-radius:50%;font-size:.85em;flex-shrink:0}
+.qt{font-size:1.05em;font-weight:600;line-height:1.6;color:#3a3028}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{background:#faf7f3;border:2px solid #e8e2da;border-radius:10px;padding:13px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;font-size:.95em;color:#555}
+.opt:hover{border-color:#d4776b;background:#fdf5f0;transform:translateX(3px)}
+.opt.picked{border-color:#d4776b;background:#fdf0eb;color:#3a3028}
+.ol{width:26px;height:26px;line-height:26px;text-align:center;border-radius:50%;background:#e8e2da;font-weight:700;font-size:.8em;flex-shrink:transition:all .2s}
+.opt.picked .ol{background:#d4776b;color:#fff}
+.bw{text-align:center;padding:30px 0 50px}
+.sb{background:linear-gradient(135deg,#e8a87c,#d4776b,#c94c6e);color:#fff;border:none;padding:15px 48px;border-radius:28px;font-size:1.1em;font-weight:700;cursor:pointer;transition:all .3s;letter-spacing:1px}
+.sb:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(212,119,107,.35)}
+.sb:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;justify-content:center;align-items:center;backdrop-filter:blur(4px)}
+.ov.on{display:flex}
+.rc{background:#fff;border-radius:20px;padding:40px;max-width:500px;width:90%;text-align:center;animation:pop .45s ease;box-shadow:0 12px 40px rgba(0,0,0,.15)}
+@keyframes pop{0%{transform:scale(.75);opacity:0}100%{transform:scale(1);opacity:1}}
+.re{font-size:3.5em;margin-bottom:8px}
+.rn{font-size:1.7em;font-weight:700;color:#3a3028;margin-bottom:4px}
+.rk{font-size:1em;color:#8a7b6b;margin-bottom:16px}
+.rs{font-size:.95em;color:#aaa;margin-bottom:18px}
+.rd{text-align:left;font-size:.93em;line-height:1.9;color:#555;background:#faf7f3;border-radius:12px;padding:18px;margin-bottom:22px}
+.rd b{color:#d4776b}
+.rbtn{background:#faf7f3;color:#d4776b;border:2px solid #d4776b;padding:11px 34px;border-radius:22px;font-size:1em;cursor:pointer;transition:all .25s;font-weight:600}
+.rbtn:hover{background:#d4776b;color:#fff}
+.ft{text-align:center;color:#bbb;font-size:.8em;padding:20px 0}
+</style>
+</head>
+<body>
+<div class="hd">
+<h1>&#x1F3A8; 测测你的隐藏性格颜色</h1>
+<p>25道题，发现你内心的真实色彩</p>
+</div>
+<div class="pbar">
+<div class="pbar-in">
+<div class="pbar-track"><div class="pbar-fill" id="pBar"></div></div>
+<div class="pbar-txt" id="pTxt">0 / 25</div>
+</div>
+</div>
+<div class="wrap">
+
+<div class="qc" id="c0">
+<div class="qh"><span class="qn">1</span><span class="qt">周末下午，你更想怎么度过？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,0,1)"><span class="ol">A</span><span>一个人看书、追剧或打游戏</span></div>
+<div class="opt" onclick="pk(this,0,2)"><span class="ol">B</span><span>约三五好友聚餐聊天</span></div>
+<div class="opt" onclick="pk(this,0,3)"><span class="ol">C</span><span>去户外爬山、骑行或逛公园</span></div>
+<div class="opt" onclick="pk(this,0,0)"><span class="ol">D</span><span>把家里彻底打扫整理一遍</span></div>
+</div>
+</div>
+
+<div class="qc" id="c1">
+<div class="qh"><span class="qn">2</span><span class="qt">面对突如其来的难题，你的第一反应是？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,1,1)"><span class="ol">A</span><span>先放一放，等情绪平稳再处理</span></div>
+<div class="opt" onclick="pk(this,1,2)"><span class="ol">B</span><span>马上找朋友吐槽或求助</span></div>
+<div class="opt" onclick="pk(this,1,3)"><span class="ol">C</span><span>兴奋，觉得是个挑战</span></div>
+<div class="opt" onclick="pk(this,1,0)"><span class="ol">D</span><span>列个详细计划，逐步解决</span></div>
+</div>
+</div>
+
+<div class="qc" id="c2">
+<div class="qh"><span class="qn">3</span><span class="qt">你更被哪种类型的人吸引？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,2,1)"><span class="ol">A</span><span>安静温柔，懂得倾听的人</span></div>
+<div class="opt" onclick="pk(this,2,2)"><span class="ol">B</span><span>幽默风趣，能带动气氛的人</span></div>
+<div class="opt" onclick="pk(this,2,3)"><span class="ol">C</span><span>热情果敢，充满冒险精神的人</span></div>
+<div class="opt" onclick="pk(this,2,0)"><span class="ol">D</span><span>沉稳可靠，做事井井有条的人</span></div>
+</div>
+</div>
+
+<div class="qc" id="c3">
+<div class="qh"><span class="qn">4</span><span class="qt">朋友心情不好，你通常会？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,3,1)"><span class="ol">A</span><span>默默陪在身边，不多过问</span></div>
+<div class="opt" onclick="pk(this,3,2)"><span class="ol">B</span><span>讲笑话、带TA去吃好吃的</span></div>
+<div class="opt" onclick="pk(this,3,3)"><span class="ol">C</span><span>拉TA出门运动或旅行散心</span></div>
+<div class="opt" onclick="pk(this,3,0)"><span class="ol">D</span><span>理性帮TA分析问题出在哪</span></div>
+</div>
+</div>
+
+<div class="qc" id="c4">
+<div class="qh"><span class="qn">5</span><span class="qt">挑选穿搭时，你衣柜里最多的颜色是？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,4,1)"><span class="ol">A</span><span>黑白灰米等中性基础色</span></div>
+<div class="opt" onclick="pk(this,4,2)"><span class="ol">B</span><span>温柔的莫兰迪色系</span></div>
+<div class="opt" onclick="pk(this,4,3)"><span class="ol">C</span><span>亮色、撞色或鲜艳的印花</span></div>
+<div class="opt" onclick="pk(this,4,0)"><span class="ol">D</span><span>同款不同色的整齐排列</span></div>
+</div>
+</div>
+
+<div class="qc" id="c5">
+<div class="qh"><span class="qn">6</span><span class="qt">周末早晨自然醒，你最可能做什么？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,5,1)"><span class="ol">A</span><span>赖在床上，慢慢刷手机苏醒</span></div>
+<div class="opt" onclick="pk(this,5,2)"><span class="ol">B</span><span>给家人或伴侣做一顿早餐</span></div>
+<div class="opt" onclick="pk(this,5,3)"><span class="ol">C</span><span>换上运动装备出门跑步</span></div>
+<div class="opt" onclick="pk(this,5,0)"><span class="ol">D</span><span>列出今天要完成的任务清单</span></div>
+</div>
+</div>
+
+<div class="qc" id="c6">
+<div class="qh"><span class="qn">7</span><span class="qt">独自在餐厅吃饭时，你倾向于？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,6,1)"><span class="ol">A</span><span>选角落位置，安静品尝食物</span></div>
+<div class="opt" onclick="pk(this,6,2)"><span class="ol">B</span><span>发信息约附近的朋友一起来</span></div>
+<div class="opt" onclick="pk(this,6,3)"><span class="ol">C</span><span>尝试菜单上最奇怪的菜品</span></div>
+<div class="opt" onclick="pk(this,6,0)"><span class="ol">D</span><span>边吃边看资料或处理工作</span></div>
+</div>
+</div>
+
+<div class="qc" id="c7">
+<div class="qh"><span class="qn">8</span><span class="qt">旅行时，你更享受哪种方式？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,7,1)"><span class="ol">A</span><span>找个风景绝美的地方静静发呆</span></div>
+<div class="opt" onclick="pk(this,7,2)"><span class="ol">B</span><span>和旅伴一路聊天、互相拍照</span></div>
+<div class="opt" onclick="pk(this,7,3)"><span class="ol">C</span><span>玩跳伞、潜水等极限运动</span></div>
+<div class="opt" onclick="pk(this,7,0)"><span class="ol">D</span><span>按精确到小时的攻略高效打卡</span></div>
+</div>
+</div>
+
+<div class="qc" id="c8">
+<div class="qh"><span class="qn">9</span><span class="qt">与人意见不同时，你通常怎样？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,8,1)"><span class="ol">A</span><span>保持沉默，内心保留想法</span></div>
+<div class="opt" onclick="pk(this,8,2)"><span class="ol">B</span><span>寻找双方都能接受的中间点</span></div>
+<div class="opt" onclick="pk(this,8,3)"><span class="ol">C</span><span>直接表达，进行激烈辩论</span></div>
+<div class="opt" onclick="pk(this,8,0)"><span class="ol">D</span><span>拿出数据和逻辑说服对方</span></div>
+</div>
+</div>
+
+<div class="qc" id="c9">
+<div class="qh"><span class="qn">10</span><span class="qt">你更常听的音乐类型是？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,9,1)"><span class="ol">A</span><span>舒缓轻音乐或民谣</span></div>
+<div class="opt" onclick="pk(this,9,2)"><span class="ol">B</span><span>流行歌曲，能跟着一起唱</span></div>
+<div class="opt" onclick="pk(this,9,3)"><span class="ol">C</span><span>摇滚、电子或说唱</span></div>
+<div class="opt" onclick="pk(this,9,0)"><span class="ol">D</span><span>纯音乐，工作时当背景音</span></div>
+</div>
+</div>
+
+<div class="qc" id="c10">
+<div class="qh"><span class="qn">11</span><span class="qt">对于"浪漫"，你最认同哪种描述？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,10,1)"><span class="ol">A</span><span>默契的对视和无言的陪伴</span></div>
+<div class="opt" onclick="pk(this,10,2)"><span class="ol">B</span><span>日常的惊喜和甜蜜的废话</span></div>
+<div class="opt" onclick="pk(this,10,3)"><span class="ol">C</span><span>突如其来的冒险和激情</span></div>
+<div class="opt" onclick="pk(this,10,0)"><span class="ol">D</span><span>行动上的负责和未来的规划</span></div>
+</div>
+</div>
+
+<div class="qc" id="c11">
+<div class="qh"><span class="qn">12</span><span class="qt">压力很大的时候，你会？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,11,1)"><span class="ol">A</span><span>躲进自己的世界，自我消化</span></div>
+<div class="opt" onclick="pk(this,11,2)"><span class="ol">B</span><span>约朋友喝酒、逛街倾吐心事</span></div>
+<div class="opt" onclick="pk(this,11,3)"><span class="ol">C</span><span>去跑步、打拳击等激烈运动发泄</span></div>
+<div class="opt" onclick="pk(this,11,0)"><span class="ol">D</span><span>制定解决方案并逐步执行</span></div>
+</div>
+</div>
+
+<div class="qc" id="c12">
+<div class="qh"><span class="qn">13</span><span class="qt">在一个热闹的派对上，你更可能是？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,12,1)"><span class="ol">A</span><span>在一旁观察，和少数人深度交流</span></div>
+<div class="opt" onclick="pk(this,12,2)"><span class="ol">B</span><span>主动认识新朋友，满场寒暄</span></div>
+<div class="opt" onclick="pk(this,12,3)"><span class="ol">C</span><span>成为焦点，带动气氛或带头跳舞</span></div>
+<div class="opt" onclick="pk(this,12,0)"><span class="ol">D</span><span>帮忙组织、打理细节，确保顺利</span></div>
+</div>
+</div>
+
+<div class="qc" id="c13">
+<div class="qh"><span class="qn">14</span><span class="qt">如果有一段自由假期，你希望？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,13,1)"><span class="ol">A</span><span>去安静的小镇或山里独处</span></div>
+<div class="opt" onclick="pk(this,13,2)"><span class="ol">B</span><span>和朋友结伴去热闹的美食之城</span></div>
+<div class="opt" onclick="pk(this,13,3)"><span class="ol">C</span><span>前往荒野或未知之地探险</span></div>
+<div class="opt" onclick="pk(this,13,0)"><span class="ol">D</span><span>报一个技能班，充实自己</span></div>
+</div>
+</div>
+
+<div class="qc" id="c14">
+<div class="qh"><span class="qn">15</span><span class="qt">你对"规则"的态度更接近？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,14,1)"><span class="ol">A</span><span>理解规则，但更看重人情</span></div>
+<div class="opt" onclick="pk(this,14,2)"><span class="ol">B</span><span>规则是死的，人是活的，可灵活变通</span></div>
+<div class="opt" onclick="pk(this,14,3)"><span class="ol">C</span><span>规则就是用来打破的</span></div>
+<div class="opt" onclick="pk(this,14,0)"><span class="ol">D</span><span>无规矩不成方圆，理应遵守</span></div>
+</div>
+</div>
+
+<div class="qc" id="c15">
+<div class="qh"><span class="qn">16</span><span class="qt">朋友形容你，最可能用哪个词？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,15,1)"><span class="ol">A</span><span>善解人意</span></div>
+<div class="opt" onclick="pk(this,15,2)"><span class="ol">B</span><span>开心果</span></div>
+<div class="opt" onclick="pk(this,15,3)"><span class="ol">C</span><span>行动派</span></div>
+<div class="opt" onclick="pk(this,15,0)"><span class="ol">D</span><span>靠谱</span></div>
+</div>
+</div>
+
+<div class="qc" id="c16">
+<div class="qh"><span class="qn">17</span><span class="qt">闲暇读书时，你更偏好？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,16,1)"><span class="ol">A</span><span>文学小说，感受细腻情感</span></div>
+<div class="opt" onclick="pk(this,16,2)"><span class="ol">B</span><span>人际关系、心理学类</span></div>
+<div class="opt" onclick="pk(this,16,3)"><span class="ol">C</span><span>奇幻、探险或科幻</span></div>
+<div class="opt" onclick="pk(this,16,0)"><span class="ol">D</span><span>工具书、方法论、自我管理</span></div>
+</div>
+</div>
+
+<div class="qc" id="c17">
+<div class="qh"><span class="qn">18</span><span class="qt">什么时刻让你感到最为满足？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,17,1)"><span class="ol">A</span><span>完成一幅画、一篇文章或一段音乐</span></div>
+<div class="opt" onclick="pk(this,17,2)"><span class="ol">B</span><span>被朋友们围绕，共享欢声笑语</span></div>
+<div class="opt" onclick="pk(this,17,3)"><span class="ol">C</span><span>完成一次自我极限的挑战</span></div>
+<div class="opt" onclick="pk(this,17,0)"><span class="ol">D</span><span>待办清单上的任务全部打勾</span></div>
+</div>
+</div>
+
+<div class="qc" id="c18">
+<div class="qh"><span class="qn">19</span><span class="qt">第一次约会，你更想选在哪里？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,18,1)"><span class="ol">A</span><span>安静的咖啡馆，深度聊天</span></div>
+<div class="opt" onclick="pk(this,18,2)"><span class="ol">B</span><span>游乐园或美食街，轻松互动</span></div>
+<div class="opt" onclick="pk(this,18,3)"><span class="ol">C</span><span>攀岩、密室逃脱等刺激活动</span></div>
+<div class="opt" onclick="pk(this,18,0)"><span class="ol">D</span><span>电影院，时间好控制又不会出错</span></div>
+</div>
+</div>
+
+<div class="qc" id="c19">
+<div class="qh"><span class="qn">20</span><span class="qt">工作中，你更享受哪种任务？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,19,1)"><span class="ol">A</span><span>独立完成，需要深度思考的</span></div>
+<div class="opt" onclick="pk(this,19,2)"><span class="ol">B</span><span>团队协作，频繁沟通的</span></div>
+<div class="opt" onclick="pk(this,19,3)"><span class="ol">C</span><span>创新开拓，从0到1的挑战</span></div>
+<div class="opt" onclick="pk(this,19,0)"><span class="ol">D</span><span>流程清晰，有条不紊的常规工作</span></div>
+</div>
+</div>
+
+<div class="qc" id="c20">
+<div class="qh"><span class="qn">21</span><span class="qt">在网上看到争议话题时，你倾向于？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,20,1)"><span class="ol">A</span><span>默默浏览，很少发表看法</span></div>
+<div class="opt" onclick="pk(this,20,2)"><span class="ol">B</span><span>转发给朋友一起讨论</span></div>
+<div class="opt" onclick="pk(this,20,3)"><span class="ol">C</span><span>激情留言，鲜明表达观点</span></div>
+<div class="opt" onclick="pk(this,20,0)"><span class="ol">D</span><span>先查证事实，理清逻辑再评论</span></div>
+</div>
+</div>
+
+<div class="qc" id="c21">
+<div class="qh"><span class="qn">22</span><span class="qt">你的房间更接近以下哪种状态？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,21,1)"><span class="ol">A</span><span>有点乱，但乱中有自己的秩序</span></div>
+<div class="opt" onclick="pk(this,21,2)"><span class="ol">B</span><span>温馨，摆满朋友合照和纪念品</span></div>
+<div class="opt" onclick="pk(this,21,3)"><span class="ol">C</span><span>色彩丰富，放满各种奇特收藏</span></div>
+<div class="opt" onclick="pk(this,21,0)"><span class="ol">D</span><span>整洁极简，每样东西都在固定位置</span></div>
+</div>
+</div>
+
+<div class="qc" id="c22">
+<div class="qh"><span class="qn">23</span><span class="qt">假如有一笔闲钱，你最想怎么花？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,22,1)"><span class="ol">A</span><span>买心仪已久的艺术品或书籍</span></div>
+<div class="opt" onclick="pk(this,22,2)"><span class="ol">B</span><span>请好朋友一起去一次旅行</span></div>
+<div class="opt" onclick="pk(this,22,3)"><span class="ol">C</span><span>投资自己学跳伞或考潜水证</span></div>
+<div class="opt" onclick="pk(this,22,0)"><span class="ol">D</span><span>存起来或严格按比例理财</span></div>
+</div>
+</div>
+
+<div class="qc" id="c23">
+<div class="qh"><span class="qn">24</span><span class="qt">面对衰老与死亡的话题，你更多会想？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,23,1)"><span class="ol">A</span><span>有些感伤，更想珍视当下每一刻</span></div>
+<div class="opt" onclick="pk(this,23,2)"><span class="ol">B</span><span>要和爱的人拼命制造回忆</span></div>
+<div class="opt" onclick="pk(this,23,3)"><span class="ol">C</span><span>既然终有一死，那就活得淋漓尽致</span></div>
+<div class="opt" onclick="pk(this,23,0)"><span class="ol">D</span><span>提前规划好保险、遗嘱等事宜</span></div>
+</div>
+</div>
+
+<div class="qc" id="c24">
+<div class="qh"><span class="qn">25</span><span class="qt">你认为自己当前最需要修炼的是？</span></div>
+<div class="opts">
+<div class="opt" onclick="pk(this,24,1)"><span class="ol">A</span><span>学会拒绝，不被他人的情绪过度牵动</span></div>
+<div class="opt" onclick="pk(this,24,2)"><span class="ol">B</span><span>享受独处，不依赖外界的能量补给</span></div>
+<div class="opt" onclick="pk(this,24,3)"><span class="ol">C</span><span>培养耐心与恒心，避免三分钟热度</span></div>
+<div class="opt" onclick="pk(this,24,0)"><span class="ol">D</span><span>放松下来，接受计划之外的变化</span></div>
+</div>
+</div>
+
+</div>
+
+<div class="bw">
+<button class="sb" id="goBtn" disabled>&#x1F52E; 查看我的性格颜色</button>
+</div>
+
+<div class="ov" id="ov">
+<div class="rc" id="rc"></div>
+</div>
+
+<div class="ft">* 以上测试仅供娱乐，愿你今天也有好心情 *</div>
+
+<script>
+var ans = new Array(25);
+for (var i = 0; i < 25; i++) ans[i] = -1;
+
+function pk(el, qi, sc) {
+  var opts = el.parentNode.children;
+  for (var k = 0; k < opts.length; k++) opts[k].className = "opt";
+  el.className = "opt picked";
+  ans[qi] = sc;
+  document.getElementById("c" + qi).className = "qc done";
+  var done = 0;
+  for (var k = 0; k < 25; k++) { if (ans[k] >= 0) done++; }
+  document.getElementById("pBar").style.width = (done * 4) + "%";
+  document.getElementById("pTxt").textContent = done + " / 25";
+  document.getElementById("goBtn").disabled = (done < 25);
+  if (done === 25) document.getElementById("goBtn").scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+document.getElementById("goBtn").onclick = function() {
+  var total = 0;
+  for (var k = 0; k < 25; k++) total += ans[k];
+  var e, c, n, d;
+  if (total <= 14) {
+    e = "\uD83D\uDD35"; c = "\u6DF1\u6D77\u84DD"; n = "\u51B7\u9759\u7684\u79E9\u5E8F\u5EFA\u7B51\u5E08";
+    d = "\u4F60\u9AA8\u5B50\u91CC\u7406\u6027\u3001\u514B\u5236\uFF0C\u4FE1\u5949\u201C\u53EF\u63A7\u201D\u624D\u80FD\u5E26\u6765\u81EA\u7531\u3002\u4F60\u4E0D\u559C\u6B22\u5931\u63A7\u7684\u60C5\u7EEA\u548C\u6DF7\u4E71\u7684\u8282\u594F\uFF0C\u4E60\u60EF\u7528\u903B\u8F91\u548C\u89C4\u5212\u6784\u7B51\u5B89\u5168\u611F\u3002\u670B\u53CB\u773C\u4E2D\u4F60\u6781\u5EA6\u9760\u8C31\uFF0C\u627F\u8BFA\u7684\u4E8B\u4E00\u5B9A\u95ED\u73AF\u3002\u4F60\u7684\u6E29\u67D4\u662F\u884C\u52A8\uFF0C\u800C\u975E\u8A00\u8BED\u3002<br><br><b>\u5EFA\u8BAE\uFF1A</b>\u5076\u5C14\u5141\u8BB8\u4E00\u5207\u201C\u4E0D\u6309\u8BA1\u5212\u53D1\u751F\u201D\uFF0C\u90A3\u91CC\u9762\u85CF\u7740\u53E6\u4E00\u79CD\u751F\u52A8\u3002";
+  } else if (total <= 29) {
+    e = "\uD83D\uDFE2"; c = "\u68EE\u6797\u7EFF"; n = "\u6C89\u9759\u7684\u6DF1\u5EA6\u966A\u4F34\u8005";
+    d = "\u4F60\u50CF\u4E00\u7247\u5B81\u9759\u7684\u68EE\u6797\uFF0C\u64C5\u957F\u503E\u542C\u548C\u5171\u60C5\u3002\u4F60\u4E0D\u4E89\u4E0D\u62A2\uFF0C\u5374\u603B\u80FD\u7ED9\u8EAB\u8FB9\u4EBA\u6070\u5230\u597D\u5904\u7684\u6170\u85C9\u3002\u4F60\u8868\u9762\u88AB\u52A8\uFF0C\u5185\u5FC3\u5374\u6709\u6781\u5176\u575A\u97E7\u7684\u5B9A\u89C1\u3002\u4F60\u7684\u529B\u91CF\u662F\u8BA9\u4EBA\u5B89\u5FC3\uFF0C\u4E0D\u5FC5\u65F6\u523B\u8BC1\u660E\u81EA\u5DF1\u201C\u6709\u7528\u201D\u3002<br><br><b>\u63D0\u9192\uFF1A</b>\u8BB0\u5F97\u7ED9\u60C5\u7EEA\u7559\u4E00\u9053\u8FB9\u754C\uFF0C\u522B\u8BA9\u5438\u6536\u592A\u591A\u4ED6\u4EBA\u7684\u91CD\u91CF\u3002";
+  } else if (total <= 44) {
+    e = "\uD83D\uDFE1"; c = "\u843D\u65E5\u6A58"; n = "\u6E29\u6696\u7684\u8054\u7ED3\u7F16\u7EC7\u8005";
+    d = "\u4F60\u7684\u9690\u85CF\u4EBA\u683C\u662F\u4E00\u8F6E\u5C0F\u592A\u9633\uFF0C\u4EAB\u53D7\u4EBA\u7FA4\uFF0C\u64C5\u957F\u5236\u9020\u5FEB\u4E50\u3002\u201C\u6709\u4F60\u5728\u5C31\u4E0D\u4F1A\u51B7\u573A\u201D\u662F\u4F60\u6700\u5E38\u6536\u5230\u7684\u8BC4\u4EF7\u3002\u4F60\u7684\u80FD\u91CF\u6765\u81EA\u4EBA\u4E0E\u4EBA\u7684\u5171\u9E23\uFF0C\u5173\u7CFB\u662F\u4F60\u6700\u73CD\u89C6\u7684\u571F\u58E4\u3002<br><br><b>\u5C0F\u6CE8\uFF1A</b>\u70ED\u95F9\u4E4B\u540E\uFF0C\u8BF7\u4E5F\u4E3A\u81EA\u5DF1\u7559\u4E00\u5BA4\u9759\u9ED8\u3002\u72EC\u5904\u4E0D\u662F\u5B64\u72EC\uFF0C\u662F\u7ED9\u5C0F\u592A\u9633\u7684\u5145\u7535\u65F6\u95F4\u3002";
+  } else if (total <= 59) {
+    e = "\uD83D\uDD34"; c = "\u706B\u7130\u7EA2"; n = "\u65E0\u754F\u7684\u5192\u9669\u5F15\u71C3\u8005";
+    d = "\u4F60\u4F53\u5185\u4F4F\u7740\u4E00\u4E2A\u6C38\u8FDC\u597D\u5947\u7684\u5C0F\u5B69\u3002\u65B0\u4E8B\u7269\u8BA9\u4F60\u53CC\u773C\u53D1\u5149\uFF0C\u884C\u52A8\u529B\u6781\u5F3A\uFF0C\u201C\u65E0\u804A\u201D\u662F\u4F60\u6700\u5927\u7684\u654C\u4EBA\u3002\u4F60\u603B\u80FD\u628A\u65B0\u9C9C\u611F\u5E26\u7ED9\u8EAB\u8FB9\u4EBA\uFF0C\u662F\u670B\u53CB\u5708\u91CC\u7B2C\u4E00\u4E2A\u5C1D\u9C9C\u7684\u4EBA\u3002<br><br><b>\u6CE8\u610F\uFF1A</b>\u70ED\u8840\u4E0A\u5934\u65F6\uFF0C\u5148\u95EE\u81EA\u5DF1\u4E00\u53E5\u201C\u8FD9\u771F\u7684\u91CD\u8981\u5417\u201D\uFF0C\u80FD\u8BA9\u706B\u7130\u70E7\u5F97\u66F4\u4E45\u66F4\u7A33\u3002";
+  } else {
+    e = "\uD83D\uDFE3"; c = "\u66AE\u5149\u7D2B"; n = "\u6DF1\u9082\u7684\u77DB\u76FE\u521B\u4F5C\u8005";
+    d = "\u4F60\u7684\u6027\u683C\u5C42\u6B21\u6781\u4E3A\u4E30\u5BCC\uFF0C\u70ED\u70C8\u4E0E\u758F\u79BB\u53EF\u4EE5\u77AC\u95F4\u5207\u6362\uFF0C\u7406\u6027\u5206\u6790\u65F6\u7A81\u7136\u611F\u6027\u5F25\u6F2B\u3002\u8FD9\u4EFD\u77DB\u76FE\u8BA9\u4F60\u62E5\u6709\u6781\u5F3A\u7684\u521B\u9020\u529B\uFF0C\u4E5F\u5BB9\u6613\u6ED1\u5165\u5185\u8017\u3002\u4F60\u4E0D\u9700\u8981\u88AB\u6240\u6709\u4EBA\u7406\u89E3\uFF0C\u90A3\u4E0D\u662F\u4F60\u7684\u71C3\u6599\u3002\u53EA\u8981\u4F60\u6301\u7EED\u521B\u9020\u3001\u8868\u8FBE\u6216\u6784\u5EFA\u70B9\u4EC0\u4E48\uFF0C\u4F60\u5C31\u4F1A\u5728\u6B64\u95F4\u95EA\u95EA\u53D1\u5149\u3002";
+  }
+  document.getElementById("rc").innerHTML =
+    '<div class="re">' + e + '</div>' +
+    '<div class="rn">' + e + ' ' + c + '</div>' +
+    '<div class="rk">' + n + '</div>' +
+    '<div class="rs">\u603B\u5206\uFF1A' + total + ' / 75</div>' +
+    '<div class="rd">' + d + '</div>' +
+    '<button class="rbtn" onclick="location.reload()">\uD83D\uDD04 \u91CD\u65B0\u6D4B\u8BD5</button>';
+  document.getElementById("ov").className = "ov on";
+};
+
+document.getElementById("ov").addEventListener("click", function(ev) {
+  if (ev.target === this) location.reload();
+});
+</script>
+</body>
+</html>
