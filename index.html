@@ -7,7 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:linear-gradient(160deg,#fdf6f0 0%,#f0e6de 50%,#e8ddd4 100%);min-height:100vh;color:#333;-webkit-font-smoothing:antialiased}
-.wrap{max-width:680px;margin:0 auto;padding:16px 20px 20px}
+.wrap{max-width:680px;margin:0 auto;padding:16px 20px 20px;padding-top:20px}
 
 .hd{text-align:center;padding:48px 20px 24px;position:relative}
 .hd::before{content:"";position:absolute;top:0;left:0;right:0;height:240px;background:linear-gradient(135deg,#e8a87c 0%,#d4776b 40%,#c94c6e 100%);border-radius:0 0 60px 60px;z-index:0}
@@ -23,7 +23,7 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 .pbar-fill{height:100%;width:0;background:linear-gradient(90deg,#e8a87c,#d4776b,#c94c6e);border-radius:3px;transition:width .5s}
 .pbar-txt{font-size:.82em;color:#8a7b6b;white-space:nowrap;font-weight:500}
 
-.qc{background:#fff;border-radius:16px;padding:24px 26px;margin-bottom:14px;box-shadow:0 2px 16px rgba(0,0,0,.04);border:2px solid transparent;transition:border-color .3s,box-shadow .3s}
+.qc{background:#fff;border-radius:16px;padding:24px 26px;margin-bottom:14px;box-shadow:0 2px 16px rgba(0,0,0,.04);border:2px solid transparent;transition:border-color .3s,box-shadow .3s;scroll-margin-top:60px}
 .qc.done{border-color:rgba(232,168,124,.5);box-shadow:0 4px 20px rgba(212,119,107,.1)}
 .qh{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
 .qn{background:linear-gradient(135deg,#e8a87c,#d4776b);color:#fff;font-weight:700;width:32px;height:32px;line-height:32px;text-align:center;border-radius:10px;font-size:.82em;flex-shrink:0;box-shadow:0 3px 8px rgba(212,119,107,.25)}
@@ -70,9 +70,9 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 .ft{text-align:center;color:#c0b5a8;font-size:.78em;padding:20px 0 30px;letter-spacing:.5px}
 
 @media(max-width:480px){
-.hd{padding:36px 16px 20px}
-.hd h1{font-size:1.65em}
-.qc{padding:20px}
+.hd{padding:28px 16px 16px}
+.hd h1{font-size:1.5em}
+.qc{padding:18px;scroll-margin-top:56px}
 .rc{border-radius:20px;margin:20px auto}
 .rc-banner{padding:32px 20px 24px}
 .rc-body{padding:22px 20px 28px}
