@@ -277,12 +277,8 @@ document.getElementById("ovBg").addEventListener("click", function() {
 });
 
 function shareResult() {
-  if (navigator.share) {
-    navigator.share({title:"\u6D4B\u6D4B\u4F60\u7684\u9690\u85CF\u6027\u683C\u989C\u8272", text:"\u6211\u521A\u6D4B\u4E86\u201C\u9690\u85CF\u6027\u683C\u989C\u8272\u201D\u6D4B\u8BD5\uFF0C\u5FEB\u6765\u8BD5\u8BD5\uFF01", url:location.href}).catch(function(){});
-  } else {
-    document.getElementById("sharePanel").className = "share-panel on";
-    document.getElementById("shareOverlay").className = "share-overlay on";
-  }
+  document.getElementById("sharePanel").className = "share-panel on";
+  document.getElementById("shareOverlay").className = "share-overlay on";
 }
 
 document.getElementById("shareOverlay").addEventListener("click", function() {
