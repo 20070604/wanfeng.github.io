@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>测测你的隐藏性格颜色</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:linear-gradient(160deg,#fdf6f0 0%,#f0e6de 50%,#e8ddd4 100%);min-height:100vh;color:#333;-webkit-font-smoothing:antialiased}
@@ -78,6 +79,7 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 .ico-wb{background:#e6162d;color:#fff}
 .ico-qq{background:#12b7f5;color:#fff}
 .ico-link{background:#f5f0eb;color:#8a7b6b}
+.ico-img{background:#ff9500;color:#fff}
 .share-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:290}
 .share-overlay.on{display:block}
 .qr-box{text-align:center;padding:20px}
@@ -85,6 +87,17 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 .qr-box p{font-size:.85em;color:#888}
 .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.75);color:#fff;padding:12px 28px;border-radius:8px;font-size:.9em;z-index:400;display:none}
 .toast.on{display:block}
+
+.img-card{position:fixed;left:-9999px;top:0;width:375px;background:#fff;border-radius:0;overflow:hidden;box-shadow:none}
+.img-card .ic-banner{padding:40px 24px 28px;text-align:center}
+.img-card .ic-circle{width:80px;height:80px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:2.4em;box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.img-card .ic-name{font-size:1.6em;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:2px}
+.img-card .ic-tag{display:inline-block;font-size:.78em;color:rgba(255,255,255,.85);background:rgba(255,255,255,.18);padding:4px 12px;border-radius:16px}
+.img-card .ic-body{padding:24px 24px 28px;text-align:center}
+.img-card .ic-title{font-size:1em;color:#3a3028;margin-bottom:12px;font-weight:700}
+.img-card .ic-desc{text-align:left;font-size:.85em;line-height:1.9;color:#555;background:#faf8f5;border-radius:12px;padding:16px;border:1px solid #ede8e2}
+.img-card .ic-desc b{color:#d4776b}
+.img-card .ic-footer{text-align:center;padding:14px 0 20px;color:#c0b5a8;font-size:.72em;letter-spacing:.5px}
 
 .ft{text-align:center;color:#c0b5a8;font-size:.78em;padding:20px 0 30px;letter-spacing:.5px}
 
@@ -183,11 +196,13 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 <div class="share-icon" id="shareWx"><div class="ico ico-wx">&#x1F4AC;</div><span>微信</span></div>
 <div class="share-icon" id="shareWb"><div class="ico ico-wb">W</div><span>微博</span></div>
 <div class="share-icon" id="shareQq"><div class="ico ico-qq">Q</div><span>QQ</span></div>
+<div class="share-icon" id="shareImg"><div class="ico ico-img">&#x1F4F7;</div><span>保存图片</span></div>
 <div class="share-icon" id="shareLink"><div class="ico ico-link">&#x1F517;</div><span>复制链接</span></div>
 </div>
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="img-card" id="imgCard"></div>
 
 <div class="ft">* 以上测试仅供娱乐，愿你今天也有好心情 *</div>
 
@@ -252,6 +267,7 @@ document.getElementById("goBtn").addEventListener("click", function() {
     '</div>';
   document.getElementById("ov").className = "ov on";
   document.body.style.overflow = "hidden";
+  window._curResult = r;
   document.getElementById("shareBtn").addEventListener("click", shareResult);
 });
 
@@ -330,6 +346,41 @@ document.getElementById("shareLink").addEventListener("click", function() {
   document.getElementById("sharePanel").className = "share-panel";
   document.getElementById("shareOverlay").className = "share-overlay";
 });
+
+document.getElementById("shareImg").addEventListener("click", function() {
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+  saveAsImage();
+});
+
+function saveAsImage() {
+  if (!window._curResult) return;
+  var r = window._curResult;
+  var card = document.getElementById("imgCard");
+  card.innerHTML =
+    '<div class="ic-banner" style="background:' + r.bg + '">' +
+      '<div class="ic-circle" style="background:' + r.circle + '">' + r.emoji + '</div>' +
+      '<div class="ic-name">' + r.name + '</div>' +
+      '<div class="ic-tag">' + r.tag + '</div>' +
+    '</div>' +
+    '<div class="ic-body">' +
+      '<div class="ic-title">\u201C\u6211\u7684\u9690\u85CF\u6027\u683C\u8272\u5F69\u201D</div>' +
+      '<div class="ic-desc">' + r.desc + '</div>' +
+    '</div>' +
+    '<div class="ic-footer">\u2014 \u6D4B\u6D4B\u4F60\u7684\u9690\u85CF\u6027\u683C\u989C\u8272 \u2014</div>';
+  showToast("\u6B63\u5728\u751F\u6210\u56FE\u7247...");
+  setTimeout(function() {
+    html2canvas(card, {scale:2, useCORS:true, backgroundColor:null}).then(function(canvas) {
+      var link = document.createElement("a");
+      link.download = "\u6027\u683C\u989C\u8272\u7ED3\u679C.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      showToast("\u56FE\u7247\u5DF2\u4FDD\u5B58\uFF01");
+    }).catch(function() {
+      showToast("\u751F\u6210\u5931\u8D25\uFF0C\u8BF7\u622A\u56FE\u5206\u4EAB");
+    });
+  }, 100);
+}
 </script>
 </body>
 </html>
