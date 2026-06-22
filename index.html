@@ -194,7 +194,6 @@ body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;bac
 <h4>分享到</h4>
 <div class="share-icons">
 <div class="share-icon" id="shareWx"><div class="ico ico-wx">&#x1F4AC;</div><span>微信</span></div>
-<div class="share-icon" id="shareWb"><div class="ico ico-wb">W</div><span>微博</span></div>
 <div class="share-icon" id="shareQq"><div class="ico ico-qq">Q</div><span>QQ</span></div>
 <div class="share-icon" id="shareImg"><div class="ico ico-img">&#x1F4F7;</div><span>保存图片</span></div>
 <div class="share-icon" id="shareLink"><div class="ico ico-link">&#x1F517;</div><span>复制链接</span></div>
@@ -323,13 +322,6 @@ document.getElementById("shareWx").addEventListener("click", function() {
   document.getElementById("ov").className = "ov on";
 });
 
-document.getElementById("shareWb").addEventListener("click", function() {
-  var u = "https://service.weibo.com/share/share.php?url=" + encodeURIComponent(shareUrl) + "&title=" + encodeURIComponent(shareText);
-  window.open(u, "_blank");
-  document.getElementById("sharePanel").className = "share-panel";
-  document.getElementById("shareOverlay").className = "share-overlay";
-});
-
 document.getElementById("shareQq").addEventListener("click", function() {
   var u = "https://connect.qq.com/widget/shareqq/index.html?url=" + encodeURIComponent(shareUrl) + "&title=" + encodeURIComponent(shareText);
   window.open(u, "_blank");
@@ -366,12 +358,18 @@ function saveAsImage() {
     '<div class="ic-footer">\u2014 \u6D4B\u6D4B\u4F60\u7684\u9690\u85CF\u6027\u683C\u989C\u8272 \u2014</div>';
   showToast("\u6B63\u5728\u751F\u6210\u56FE\u7247...");
   setTimeout(function() {
-    html2canvas(card, {scale:2, useCORS:true, backgroundColor:null}).then(function(canvas) {
-      var link = document.createElement("a");
-      link.download = "\u6027\u683C\u989C\u8272\u7ED3\u679C.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-      showToast("\u56FE\u7247\u5DF2\u4FDD\u5B58\uFF01");
+    html2canvas(card, {scale:2, useCORS:true, backgroundColor:"#fff"}).then(function(canvas) {
+      canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.download = "\u6027\u683C\u989C\u8272\u7ED3\u679C.png";
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+        showToast("\u56FE\u7247\u5DF2\u4FDD\u5B58\uFF01");
+      }, "image/png");
     }).catch(function() {
       showToast("\u751F\u6210\u5931\u8D25\uFF0C\u8BF7\u622A\u56FE\u5206\u4EAB");
     });
