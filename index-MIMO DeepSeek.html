@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>测测你的隐藏性格颜色</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+:root {
+  --peach: #e8a87c;
+  --rose: #d4776b;
+  --crimson: #c94c6e;
+  --bg: #fdf6f0;
+  --card: #fff;
+  --text: #3a3028;
+  --sub: #8a7b6b;
+  --border: #ede8e2;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.03);
+  --shadow-md: 0 4px 20px rgba(0,0,0,.06);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.15);
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --transition: .25s cubic-bezier(.4,0,.2,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ====== Animated Background ====== */
+.bg-shapes {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-shapes span {
+  position: absolute;
+  border-radius: 50%;
+  opacity: .08;
+  animation: floatShape 20s infinite ease-in-out;
+}
+.bg-shapes span:nth-child(1){width:300px;height:300px;background:var(--peach);top:10%;left:-5%;animation-delay:0s;}
+.bg-shapes span:nth-child(2){width:200px;height:200px;background:var(--rose);top:60%;right:-3%;animation-delay:-6s;}
+.bg-shapes span:nth-child(3){width:160px;height:160px;background:var(--crimson);bottom:5%;left:20%;animation-delay:-12s;}
+.bg-shapes span:nth-child(4){width:120px;height:120px;background:var(--peach);top:40%;left:60%;animation-delay:-3s;}
+.bg-shapes span:nth-child(5){width:80px;height:80px;background:var(--rose);top:20%;right:15%;animation-delay:-9s;}
+.bg-shapes span:nth-child(6){width:180px;height:180px;background:var(--crimson);top:75%;right:40%;animation-delay:-15s;}
+
+@keyframes floatShape {
+  0%,100%{transform:translate(0,0) scale(1) rotate(0deg);}
+  25%{transform:translate(40px,-30px) scale(1.15) rotate(5deg);}
+  50%{transform:translate(-20px,-60px) scale(.9) rotate(-3deg);}
+  75%{transform:translate(-30px,20px) scale(1.1) rotate(2deg);}
+}
+
+/* ====== Wrap ====== */
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px 20px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ====== Header ====== */
+.hd {
+  text-align: center;
+  padding: 56px 20px 32px;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(160deg, #e8a87c 0%, #d4776b 35%, #c94c6e 70%, #a83d5a 100%);
+  border-radius: 0 0 64px 64px;
+  box-shadow: 0 8px 40px rgba(201,76,110,.25);
+  overflow: hidden;
+}
+.hd::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at 30% 40%, rgba(255,255,255,.12) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(255,255,255,.06) 0%, transparent 40%);
+  animation: hdShine 8s ease-in-out infinite;
+}
+@keyframes hdShine {
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(20px,-10px);}
+}
+.hd h1 {
+  font-size: 2.2em;
+  color: #fff;
+  position: relative;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 16px rgba(0,0,0,.15);
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+.hd p {
+  color: rgba(255,255,255,.85);
+  font-size: .95em;
+  letter-spacing: 1px;
+  position: relative;
+  font-weight: 400;
+}
+.hd .deco {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  position: relative;
+}
+.hd .deco span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.45);
+  transition: all .3s;
+}
+.hd .deco span:nth-child(2) {
+  width: 28px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.65);
+}
+
+/* ====== Progress Bar ====== */
+.pbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(253,246,240,.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 14px 20px;
+  box-shadow: 0 1px 12px rgba(0,0,0,.05);
+}
+.pbar-in {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pbar-track {
+  flex: 1;
+  height: 8px;
+  background: #e8e2da;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.pbar-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #e8a87c, #d4776b, #c94c6e);
+  border-radius: 4px;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
+.pbar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+  0%{transform:translateX(-100%);}
+  100%{transform:translateX(100%);}
+}
+.pbar-txt {
+  font-size: .82em;
+  color: var(--sub);
+  white-space: nowrap;
+  font-weight: 600;
+  min-width: 52px;
+  text-align: right;
+}
+
+/* ====== Question Cards ====== */
+.qc {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 28px 28px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+  transition: all var(--transition);
+  scroll-margin-top: 70px;
+  position: relative;
+  animation: cardIn .5s ease-out backwards;
+}
+.qc:nth-child(1){animation-delay:.05s}
+.qc:nth-child(2){animation-delay:.1s}
+.qc:nth-child(3){animation-delay:.15s}
+.qc:nth-child(4){animation-delay:.2s}
+.qc:nth-child(5){animation-delay:.25s}
+@keyframes cardIn {
+  from {opacity:0;transform:translateY(20px);}
+  to {opacity:1;transform:translateY(0);}
+}
+.qc.done {
+  border-color: rgba(232,168,124,.4);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(232,168,124,.15);
+}
+.qh {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.qn {
+  background: linear-gradient(135deg, #e8a87c, #d4776b);
+  color: #fff;
+  font-weight: 800;
+  width: 34px; height: 34px;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 12px;
+  font-size: .85em;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(212,119,107,.3);
+  letter-spacing: 0;
+}
+.qt {
+  font-size: 1.05em;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--text);
+  padding-top: 4px;
+  letter-spacing: .3px;
+}
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.opt {
+  background: #faf8f5;
+  border: 2px solid #ede8e2;
+  border-radius: var(--radius);
+  padding: 15px 18px;
+  cursor: pointer;
+  transition: all .2s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: .94em;
+  color: #555;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+.opt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,119,107,.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+}
+.opt:hover {
+  border-color: #d4776b;
+  background: #fef8f5;
+  transform: translateX(6px);
+  box-shadow: 0 3px 12px rgba(212,119,107,.1);
+}
+.opt:active {
+  transform: translateX(6px) scale(.98);
+  transition: all .08s;
+}
+.opt.picked {
+  border-color: #d4776b;
+  background: linear-gradient(135deg, #fdf0eb, #fef5f0);
+  color: var(--text);
+  box-shadow: 0 4px 16px rgba(212,119,107,.15);
+  font-weight: 500;
+}
+.ol {
+  width: 30px; height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 9px;
+  background: #ede8e2;
+  font-weight: 700;
+  font-size: .8em;
+  flex-shrink: 0;
+  transition: all .2s;
+}
+.opt.picked .ol {
+  background: linear-gradient(135deg, #e8a87c, #d4776b);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(212,119,107,.35);
+  transform: scale(1.05);
+}
+
+/* ====== Bottom ====== */
+.bw {
+  text-align: center;
+  padding: 32px 0 56px;
+}
+.sb {
+  background: linear-gradient(135deg, #e8a87c, #d4776b, #c94c6e);
+  color: #fff;
+  border: none;
+  padding: 17px 56px;
+  border-radius: 32px;
+  font-size: 1.12em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .3s cubic-bezier(.4,0,.2,1);
+  letter-spacing: 1.5px;
+  box-shadow: 0 8px 28px rgba(212,119,107,.3);
+  position: relative;
+  overflow: hidden;
+}
+.sb::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  transition: left .5s;
+}
+.sb:hover::before {left:100%;}
+.sb:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 36px rgba(212,119,107,.45);
+}
+.sb:active {transform:translateY(-1px) scale(.99);}
+.sb:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ====== Overlay ====== */
+.ov {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow-y: auto;
+  padding: 20px 0;
+  animation: fadeIn .3s ease;
+}
+.ov.on {display: block;}
+@keyframes fadeIn {
+  from{opacity:0}
+  to{opacity:1}
+}
+.ov-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ====== Result Card ====== */
+.rc {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: 28px;
+  max-width: 500px;
+  width: 92%;
+  margin: 40px auto;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,0,0,.04);
+  animation: popIn .45s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn {
+  from{opacity:0;transform:scale(.85) translateY(30px);}
+  to{opacity:1;transform:scale(1) translateY(0);}
+}
+.rc-banner {
+  padding: 48px 30px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.rc-banner::after {
+  content: "";
+  position: absolute;
+  bottom: -20px; left: 10%; right: 10%;
+  height: 40px;
+  background: rgba(255,255,255,.1);
+  border-radius: 50%;
+  filter: blur(10px);
+}
+.rc-circle {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8em;
+  box-shadow: 0 10px 36px rgba(0,0,0,.18);
+  animation: circleBounce .6s cubic-bezier(.34,1.56,.64,1) .1s backwards;
+}
+@keyframes circleBounce {
+  from{transform:scale(0) rotate(-30deg);}
+  to{transform:scale(1) rotate(0);}
+}
+.rc-name {
+  font-size: 2em;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+  text-shadow: 0 3px 12px rgba(0,0,0,.18);
+  letter-spacing: 3px;
+  animation: fadeInUp .5s ease .2s backwards;
+}
+.rc-tag {
+  display: inline-block;
+  font-size: .84em;
+  color: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.18);
+  backdrop-filter: blur(8px);
+  padding: 5px 18px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  animation: fadeInUp .5s ease .3s backwards;
+}
+@keyframes fadeInUp {
+  from{opacity:0;transform:translateY(12px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.rc-body {
+  padding: 32px 32px 36px;
+  text-align: center;
+}
+.rc-body h3 {
+  font-size: 1.15em;
+  color: var(--text);
+  margin-bottom: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.rc-body h3::before {content:"\201C ";color:#d4776b;font-size:1.4em;}
+.rc-body h3::after {content:" \201D";color:#d4776b;font-size:1.4em;}
+.rd {
+  text-align: left;
+  font-size: .94em;
+  line-height: 2.1;
+  color: #555;
+  background: linear-gradient(135deg, #faf8f5, #f5f0eb);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 28px;
+  border: 1px solid #ede8e2;
+}
+.rd b {color:#d4776b;font-weight:700;}
+.rc-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.rbtn {
+  padding: 13px 30px;
+  border-radius: 26px;
+  font-size: .95em;
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  font-weight: 600;
+  border: none;
+  letter-spacing: .5px;
+}
+.rbtn-primary {
+  background: linear-gradient(135deg, #e8a87c, #d4776b);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(212,119,107,.3);
+}
+.rbtn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212,119,107,.45);
+}
+.rbtn-primary:active {transform:translateY(0);}
+.rbtn-ghost {
+  background: #f5f0eb;
+  color: var(--sub);
+  border: 1.5px solid #e0d8cf;
+}
+.rbtn-ghost:hover {
+  background: #ede8e2;
+  color: #5a4a3a;
+  border-color: #ccc4b8;
+}
+
+/* ====== Share Panel ====== */
+.share-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 290;
+}
+.share-overlay.on {display: block;}
+.share-panel {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 300;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  padding: 28px 20px 36px;
+  box-shadow: 0 -8px 40px rgba(0,0,0,.12);
+  animation: slideUp .35s cubic-bezier(.34,1.56,.64,1);
+}
+.share-panel.on {display: block;}
+@keyframes slideUp {
+  from{transform:translateY(100%);}
+  to{transform:translateY(0);}
+}
+.share-panel h4 {
+  text-align: center;
+  font-size: 1.05em;
+  color: var(--text);
+  margin-bottom: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.share-icons {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.share-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 10px;
+  transition: transform .2s;
+}
+.share-icon:hover {transform:translateY(-3px);}
+.share-icon:active {transform:scale(.92);}
+.share-icon .ico {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  transition: all .2s;
+  box-shadow: 0 4px 14px rgba(0,0,0,.1);
+}
+.share-icon span {
+  font-size: .75em;
+  color: #888;
+  font-weight: 500;
+}
+.ico-wx {background:#07c160;color:#fff;}
+.ico-wb {background:#e6162d;color:#fff;}
+.ico-qq {background:#12b7f5;color:#fff;}
+.ico-link {background:#f0ebe3;color:#8a7b6b;}
+.ico-img {background:#ff9500;color:#fff;}
+
+/* ====== QR Box ====== */
+.qr-box {
+  text-align: center;
+  padding: 28px 20px;
+}
+.qr-box img {
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+.qr-box p {
+  font-size: .88em;
+  color: #888;
+}
+
+/* ====== Toast ====== */
+.toast {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: .92em;
+  z-index: 400;
+  display: none;
+  letter-spacing: .5px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.toast.on {
+  display: block;
+  animation: toastIn .3s ease;
+}
+@keyframes toastIn {
+  from{opacity:0;transform:translate(-50%,-50%) scale(.9);}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1);}
+}
+
+/* ====== Image Card ====== */
+.img-card {
+  position: fixed;
+  left: -9999px; top: 0;
+  width: 375px;
+  background: #fff;
+  border-radius: 0;
+  overflow: hidden;
+}
+.img-card .ic-banner {
+  padding: 44px 24px 30px;
+  text-align: center;
+}
+.img-card .ic-circle {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4em;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+.img-card .ic-name {
+  font-size: 1.6em;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.img-card .ic-tag {
+  display: inline-block;
+  font-size: .78em;
+  color: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.18);
+  padding: 4px 14px;
+  border-radius: 18px;
+}
+.img-card .ic-body {
+  padding: 26px 24px 28px;
+  text-align: center;
+}
+.img-card .ic-title {
+  font-size: 1em;
+  color: var(--text);
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+.img-card .ic-desc {
+  text-align: left;
+  font-size: .86em;
+  line-height: 2;
+  color: #555;
+  background: #faf8f5;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #ede8e2;
+}
+.img-card .ic-desc b {color:#d4776b;}
+.img-card .ic-footer {
+  text-align: center;
+  padding: 16px 0 22px;
+  color: #c0b5a8;
+  font-size: .74em;
+  letter-spacing: .5px;
+}
+
+/* ====== Footer ====== */
+.ft {
+  text-align: center;
+  color: #c0b5a8;
+  font-size: .85em;
+  padding: 20px 0 36px;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+}
+.ft::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e0d8cf, transparent);
+  margin: 0 auto 14px;
+  border-radius: 1px;
+}
+
+/* ====== Mobile ====== */
+@media(max-width:480px){
+  .hd {
+    padding: 36px 16px 22px;
+    border-radius: 0 0 44px 44px;
+  }
+  .hd h1 {font-size:1.55em;letter-spacing:1px;}
+  .qc {
+    padding: 20px 18px;
+    scroll-margin-top: 60px;
+  }
+  .rc {
+    border-radius: 22px;
+    margin: 24px auto;
+  }
+  .rc-banner {padding:36px 22px 28px;}
+  .rc-body {padding:24px 22px 30px;}
+  .sb {padding:15px 44px;font-size:1.02em;}
+  .share-icons {gap:20px;}
+  .share-icon .ico {width:50px;height:50px;font-size:1.3em;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<div class="hd">
+  <h1>&#x1F3A8; 测测你的隐藏性格颜色</h1>
+  <p>25道题，发现你内心的真实色彩</p>
+  <div class="deco"><span></span><span></span><span></span></div>
+</div>
+
+<div class="pbar">
+  <div class="pbar-in">
+    <div class="pbar-track"><div class="pbar-fill" id="pBar"></div></div>
+    <div class="pbar-txt" id="pTxt">0 / 25</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div class="qc" id="c0"><div class="qh"><span class="qn">1</span><span class="qt">周末下午，你更想怎么度过？</span></div><div class="opts"><div class="opt" data-q="0" data-s="1"><span class="ol">A</span><span>一个人看书、追剧或打游戏</span></div><div class="opt" data-q="0" data-s="2"><span class="ol">B</span><span>约三五好友聚餐聊天</span></div><div class="opt" data-q="0" data-s="3"><span class="ol">C</span><span>去户外爬山、骑行或逛公园</span></div><div class="opt" data-q="0" data-s="0"><span class="ol">D</span><span>把家里彻底打扫整理一遍</span></div></div></div>
+
+<div class="qc" id="c1"><div class="qh"><span class="qn">2</span><span class="qt">面对突如其来的难题，你的第一反应是？</span></div><div class="opts"><div class="opt" data-q="1" data-s="1"><span class="ol">A</span><span>先放一放，等情绪平稳再处理</span></div><div class="opt" data-q="1" data-s="2"><span class="ol">B</span><span>马上找朋友吐槽或求助</span></div><div class="opt" data-q="1" data-s="3"><span class="ol">C</span><span>兴奋，觉得是个挑战</span></div><div class="opt" data-q="1" data-s="0"><span class="ol">D</span><span>列个详细计划，逐步解决</span></div></div></div>
+
+<div class="qc" id="c2"><div class="qh"><span class="qn">3</span><span class="qt">你更被哪种类型的人吸引？</span></div><div class="opts"><div class="opt" data-q="2" data-s="1"><span class="ol">A</span><span>安静温柔，懂得倾听的人</span></div><div class="opt" data-q="2" data-s="2"><span class="ol">B</span><span>幽默风趣，能带动气氛的人</span></div><div class="opt" data-q="2" data-s="3"><span class="ol">C</span><span>热情果敢，充满冒险精神的人</span></div><div class="opt" data-q="2" data-s="0"><span class="ol">D</span><span>沉稳可靠，做事井井有条的人</span></div></div></div>
+
+<div class="qc" id="c3"><div class="qh"><span class="qn">4</span><span class="qt">朋友心情不好，你通常会？</span></div><div class="opts"><div class="opt" data-q="3" data-s="1"><span class="ol">A</span><span>默默陪在身边，不多过问</span></div><div class="opt" data-q="3" data-s="2"><span class="ol">B</span><span>讲笑话、带TA去吃好吃的</span></div><div class="opt" data-q="3" data-s="3"><span class="ol">C</span><span>拉TA出门运动或旅行散心</span></div><div class="opt" data-q="3" data-s="0"><span class="ol">D</span><span>理性帮TA分析问题出在哪</span></div></div></div>
+
+<div class="qc" id="c4"><div class="qh"><span class="qn">5</span><span class="qt">挑选穿搭时，你衣柜里最多的颜色是？</span></div><div class="opts"><div class="opt" data-q="4" data-s="1"><span class="ol">A</span><span>黑白灰米等中性基础色</span></div><div class="opt" data-q="4" data-s="2"><span class="ol">B</span><span>温柔的莫兰迪色系</span></div><div class="opt" data-q="4" data-s="3"><span class="ol">C</span><span>亮色、撞色或鲜艳的印花</span></div><div class="opt" data-q="4" data-s="0"><span class="ol">D</span><span>同款不同色的整齐排列</span></div></div></div>
+
+<div class="qc" id="c5"><div class="qh"><span class="qn">6</span><span class="qt">周末早晨自然醒，你最可能做什么？</span></div><div class="opts"><div class="opt" data-q="5" data-s="1"><span class="ol">A</span><span>赖在床上，慢慢刷手机苏醒</span></div><div class="opt" data-q="5" data-s="2"><span class="ol">B</span><span>给家人或伴侣做一顿早餐</span></div><div class="opt" data-q="5" data-s="3"><span class="ol">C</span><span>换上运动装备出门跑步</span></div><div class="opt" data-q="5" data-s="0"><span class="ol">D</span><span>列出今天要完成的任务清单</span></div></div></div>
+
+<div class="qc" id="c6"><div class="qh"><span class="qn">7</span><span class="qt">独自在餐厅吃饭时，你倾向于？</span></div><div class="opts"><div class="opt" data-q="6" data-s="1"><span class="ol">A</span><span>选角落位置，安静品尝食物</span></div><div class="opt" data-q="6" data-s="2"><span class="ol">B</span><span>发信息约附近的朋友一起来</span></div><div class="opt" data-q="6" data-s="3"><span class="ol">C</span><span>尝试菜单上最奇怪的菜品</span></div><div class="opt" data-q="6" data-s="0"><span class="ol">D</span><span>边吃边看资料或处理工作</span></div></div></div>
+
+<div class="qc" id="c7"><div class="qh"><span class="qn">8</span><span class="qt">旅行时，你更享受哪种方式？</span></div><div class="opts"><div class="opt" data-q="7" data-s="1"><span class="ol">A</span><span>找个风景绝美的地方静静发呆</span></div><div class="opt" data-q="7" data-s="2"><span class="ol">B</span><span>和旅伴一路聊天、互相拍照</span></div><div class="opt" data-q="7" data-s="3"><span class="ol">C</span><span>玩跳伞、潜水等极限运动</span></div><div class="opt" data-q="7" data-s="0"><span class="ol">D</span><span>按精确到小时的攻略高效打卡</span></div></div></div>
+
+<div class="qc" id="c8"><div class="qh"><span class="qn">9</span><span class="qt">与人意见不同时，你通常怎样？</span></div><div class="opts"><div class="opt" data-q="8" data-s="1"><span class="ol">A</span><span>保持沉默，内心保留想法</span></div><div class="opt" data-q="8" data-s="2"><span class="ol">B</span><span>寻找双方都能接受的中间点</span></div><div class="opt" data-q="8" data-s="3"><span class="ol">C</span><span>直接表达，进行激烈辩论</span></div><div class="opt" data-q="8" data-s="0"><span class="ol">D</span><span>拿出数据和逻辑说服对方</span></div></div></div>
+
+<div class="qc" id="c9"><div class="qh"><span class="qn">10</span><span class="qt">你更常听的音乐类型是？</span></div><div class="opts"><div class="opt" data-q="9" data-s="1"><span class="ol">A</span><span>舒缓轻音乐或民谣</span></div><div class="opt" data-q="9" data-s="2"><span class="ol">B</span><span>流行歌曲，能跟着一起唱</span></div><div class="opt" data-q="9" data-s="3"><span class="ol">C</span><span>摇滚、电子或说唱</span></div><div class="opt" data-q="9" data-s="0"><span class="ol">D</span><span>纯音乐，工作时当背景音</span></div></div></div>
+
+<div class="qc" id="c10"><div class="qh"><span class="qn">11</span><span class="qt">对于"浪漫"，你最认同哪种描述？</span></div><div class="opts"><div class="opt" data-q="10" data-s="1"><span class="ol">A</span><span>默契的对视和无言的陪伴</span></div><div class="opt" data-q="10" data-s="2"><span class="ol">B</span><span>日常的惊喜和甜蜜的废话</span></div><div class="opt" data-q="10" data-s="3"><span class="ol">C</span><span>突如其来的冒险和激情</span></div><div class="opt" data-q="10" data-s="0"><span class="ol">D</span><span>行动上的负责和未来的规划</span></div></div></div>
+
+<div class="qc" id="c11"><div class="qh"><span class="qn">12</span><span class="qt">压力很大的时候，你会？</span></div><div class="opts"><div class="opt" data-q="11" data-s="1"><span class="ol">A</span><span>躲进自己的世界，自我消化</span></div><div class="opt" data-q="11" data-s="2"><span class="ol">B</span><span>约朋友喝酒、逛街倾吐心事</span></div><div class="opt" data-q="11" data-s="3"><span class="ol">C</span><span>去跑步、打拳击等激烈运动发泄</span></div><div class="opt" data-q="11" data-s="0"><span class="ol">D</span><span>制定解决方案并逐步执行</span></div></div></div>
+
+<div class="qc" id="c12"><div class="qh"><span class="qn">13</span><span class="qt">在一个热闹的派对上，你更可能是？</span></div><div class="opts"><div class="opt" data-q="12" data-s="1"><span class="ol">A</span><span>在一旁观察，和少数人深度交流</span></div><div class="opt" data-q="12" data-s="2"><span class="ol">B</span><span>主动认识新朋友，满场寒暄</span></div><div class="opt" data-q="12" data-s="3"><span class="ol">C</span><span>成为焦点，带动气氛或带头跳舞</span></div><div class="opt" data-q="12" data-s="0"><span class="ol">D</span><span>帮忙组织、打理细节，确保顺利</span></div></div></div>
+
+<div class="qc" id="c13"><div class="qh"><span class="qn">14</span><span class="qt">如果有一段自由假期，你希望？</span></div><div class="opts"><div class="opt" data-q="13" data-s="1"><span class="ol">A</span><span>去安静的小镇或山里独处</span></div><div class="opt" data-q="13" data-s="2"><span class="ol">B</span><span>和朋友结伴去热闹的美食之城</span></div><div class="opt" data-q="13" data-s="3"><span class="ol">C</span><span>前往荒野或未知之地探险</span></div><div class="opt" data-q="13" data-s="0"><span class="ol">D</span><span>报一个技能班，充实自己</span></div></div></div>
+
+<div class="qc" id="c14"><div class="qh"><span class="qn">15</span><span class="qt">你对"规则"的态度更接近？</span></div><div class="opts"><div class="opt" data-q="14" data-s="1"><span class="ol">A</span><span>理解规则，但更看重人情</span></div><div class="opt" data-q="14" data-s="2"><span class="ol">B</span><span>规则是死的，人是活的，可灵活变通</span></div><div class="opt" data-q="14" data-s="3"><span class="ol">C</span><span>规则就是用来打破的</span></div><div class="opt" data-q="14" data-s="0"><span class="ol">D</span><span>无规矩不成方圆，理应遵守</span></div></div></div>
+
+<div class="qc" id="c15"><div class="qh"><span class="qn">16</span><span class="qt">朋友形容你，最可能用哪个词？</span></div><div class="opts"><div class="opt" data-q="15" data-s="1"><span class="ol">A</span><span>善解人意</span></div><div class="opt" data-q="15" data-s="2"><span class="ol">B</span><span>开心果</span></div><div class="opt" data-q="15" data-s="3"><span class="ol">C</span><span>行动派</span></div><div class="opt" data-q="15" data-s="0"><span class="ol">D</span><span>靠谱</span></div></div></div>
+
+<div class="qc" id="c16"><div class="qh"><span class="qn">17</span><span class="qt">闲暇读书时，你更偏好？</span></div><div class="opts"><div class="opt" data-q="16" data-s="1"><span class="ol">A</span><span>文学小说，感受细腻情感</span></div><div class="opt" data-q="16" data-s="2"><span class="ol">B</span><span>人际关系、心理学类</span></div><div class="opt" data-q="16" data-s="3"><span class="ol">C</span><span>奇幻、探险或科幻</span></div><div class="opt" data-q="16" data-s="0"><span class="ol">D</span><span>工具书、方法论、自我管理</span></div></div></div>
+
+<div class="qc" id="c17"><div class="qh"><span class="qn">18</span><span class="qt">什么时刻让你感到最为满足？</span></div><div class="opts"><div class="opt" data-q="17" data-s="1"><span class="ol">A</span><span>完成一幅画、一篇文章或一段音乐</span></div><div class="opt" data-q="17" data-s="2"><span class="ol">B</span><span>被朋友们围绕，共享欢声笑语</span></div><div class="opt" data-q="17" data-s="3"><span class="ol">C</span><span>完成一次自我极限的挑战</span></div><div class="opt" data-q="17" data-s="0"><span class="ol">D</span><span>待办清单上的任务全部打勾</span></div></div></div>
+
+<div class="qc" id="c18"><div class="qh"><span class="qn">19</span><span class="qt">第一次约会，你更想选在哪里？</span></div><div class="opts"><div class="opt" data-q="18" data-s="1"><span class="ol">A</span><span>安静的咖啡馆，深度聊天</span></div><div class="opt" data-q="18" data-s="2"><span class="ol">B</span><span>游乐园或美食街，轻松互动</span></div><div class="opt" data-q="18" data-s="3"><span class="ol">C</span><span>攀岩、密室逃脱等刺激活动</span></div><div class="opt" data-q="18" data-s="0"><span class="ol">D</span><span>电影院，时间好控制又不会出错</span></div></div></div>
+
+<div class="qc" id="c19"><div class="qh"><span class="qn">20</span><span class="qt">工作中，你更享受哪种任务？</span></div><div class="opts"><div class="opt" data-q="19" data-s="1"><span class="ol">A</span><span>独立完成，需要深度思考的</span></div><div class="opt" data-q="19" data-s="2"><span class="ol">B</span><span>团队协作，频繁沟通的</span></div><div class="opt" data-q="19" data-s="3"><span class="ol">C</span><span>创新开拓，从0到1的挑战</span></div><div class="opt" data-q="19" data-s="0"><span class="ol">D</span><span>流程清晰，有条不紊的常规工作</span></div></div></div>
+
+<div class="qc" id="c20"><div class="qh"><span class="qn">21</span><span class="qt">在网上看到争议话题时，你倾向于？</span></div><div class="opts"><div class="opt" data-q="20" data-s="1"><span class="ol">A</span><span>默默浏览，很少发表看法</span></div><div class="opt" data-q="20" data-s="2"><span class="ol">B</span><span>转发给朋友一起讨论</span></div><div class="opt" data-q="20" data-s="3"><span class="ol">C</span><span>激情留言，鲜明表达观点</span></div><div class="opt" data-q="20" data-s="0"><span class="ol">D</span><span>先查证事实，理清逻辑再评论</span></div></div></div>
+
+<div class="qc" id="c21"><div class="qh"><span class="qn">22</span><span class="qt">你的房间更接近以下哪种状态？</span></div><div class="opts"><div class="opt" data-q="21" data-s="1"><span class="ol">A</span><span>有点乱，但乱中有自己的秩序</span></div><div class="opt" data-q="21" data-s="2"><span class="ol">B</span><span>温馨，摆满朋友合照和纪念品</span></div><div class="opt" data-q="21" data-s="3"><span class="ol">C</span><span>色彩丰富，放满各种奇特收藏</span></div><div class="opt" data-q="21" data-s="0"><span class="ol">D</span><span>整洁极简，每样东西都在固定位置</span></div></div></div>
+
+<div class="qc" id="c22"><div class="qh"><span class="qn">23</span><span class="qt">假如有一笔闲钱，你最想怎么花？</span></div><div class="opts"><div class="opt" data-q="22" data-s="1"><span class="ol">A</span><span>买心仪已久的艺术品或书籍</span></div><div class="opt" data-q="22" data-s="2"><span class="ol">B</span><span>请好朋友一起去一次旅行</span></div><div class="opt" data-q="22" data-s="3"><span class="ol">C</span><span>投资自己学跳伞或考潜水证</span></div><div class="opt" data-q="22" data-s="0"><span class="ol">D</span><span>存起来或严格按比例理财</span></div></div></div>
+
+<div class="qc" id="c23"><div class="qh"><span class="qn">24</span><span class="qt">面对衰老与死亡的话题，你更多会想？</span></div><div class="opts"><div class="opt" data-q="23" data-s="1"><span class="ol">A</span><span>有些感伤，更想珍视当下每一刻</span></div><div class="opt" data-q="23" data-s="2"><span class="ol">B</span><span>要和爱的人拼命制造回忆</span></div><div class="opt" data-q="23" data-s="3"><span class="ol">C</span><span>既然终有一死，那就活得淋漓尽致</span></div><div class="opt" data-q="23" data-s="0"><span class="ol">D</span><span>提前规划好保险、遗嘱等事宜</span></div></div></div>
+
+<div class="qc" id="c24"><div class="qh"><span class="qn">25</span><span class="qt">你认为自己当前最需要修炼的是？</span></div><div class="opts"><div class="opt" data-q="24" data-s="1"><span class="ol">A</span><span>学会拒绝，不被他人的情绪过度牵动</span></div><div class="opt" data-q="24" data-s="2"><span class="ol">B</span><span>享受独处，不依赖外界的能量补给</span></div><div class="opt" data-q="24" data-s="3"><span class="ol">C</span><span>培养耐心与恒心，避免三分钟热度</span></div><div class="opt" data-q="24" data-s="0"><span class="ol">D</span><span>放松下来，接受计划之外的变化</span></div></div></div>
+
+</div>
+
+<div class="bw">
+  <button class="sb" id="goBtn" disabled>&#x1F52E; 查看我的性格颜色</button>
+</div>
+
+<div class="ov" id="ov">
+  <div class="ov-bg" id="ovBg"></div>
+  <div class="rc" id="rc"></div>
+</div>
+
+<div class="share-overlay" id="shareOverlay"></div>
+<div class="share-panel" id="sharePanel">
+  <h4>分享到</h4>
+  <div class="share-icons">
+    <div class="share-icon" id="shareWx"><div class="ico ico-wx">&#x1F4AC;</div><span>微信</span></div>
+    <div class="share-icon" id="shareQq"><div class="ico ico-qq">Q</div><span>QQ</span></div>
+    <div class="share-icon" id="shareImg"><div class="ico ico-img">&#x1F4F7;</div><span>保存图片</span></div>
+    <div class="share-icon" id="shareLink"><div class="ico ico-link">&#x1F517;</div><span>复制链接</span></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="img-card" id="imgCard"></div>
+
+<div class="ft">* 以上测试仅供娱乐，愿你今天也有好心情 *</div>
+
+<script>
+var ans = [];
+for (var i = 0; i < 25; i++) ans[i] = -1;
+
+var results = {
+  blue:   {emoji:"\uD83D\uDD35", name:"\u6DF1\u6D77\u84DD", tag:"\u51B7\u9759\u7684\u79E9\u5E8F\u5EFA\u7B51\u5E08", bg:"linear-gradient(135deg,#2b5ea7,#4a90d9)", circle:"linear-gradient(135deg,#1a3d6e,#3a7bd5)", desc:"\u4F60\u9AA8\u5B50\u91CC\u7406\u6027\u3001\u514B\u5236\uFF0C\u4FE1\u5949\u201C\u53EF\u63A7\u201D\u624D\u80FD\u5E26\u6765\u81EA\u7531\u3002\u4F60\u4E0D\u559C\u6B22\u5931\u63A7\u7684\u60C5\u7EEA\u548C\u6DF7\u4E71\u7684\u8282\u594F\uFF0C\u4E60\u60EF\u7528\u903B\u8F91\u548C\u89C4\u5212\u6784\u7B51\u5B89\u5168\u611F\u3002\u670B\u53CB\u773C\u4E2D\u4F60\u6781\u5EA6\u9760\u8C31\uFF0C\u627F\u8BFA\u7684\u4E8B\u4E00\u5B9A\u95ED\u73AF\u3002\u4F60\u7684\u6E29\u67D4\u662F\u884C\u52A8\uFF0C\u800C\u975E\u8A00\u8BED\u3002<br><br><b>\u5EFA\u8BAE\uFF1A</b>\u5076\u5C14\u5141\u8BB8\u4E00\u5207\u201C\u4E0D\u6309\u8BA1\u5212\u53D1\u751F\u201D\uFF0C\u90A3\u91CC\u9762\u85CF\u7740\u53E6\u4E00\u79CD\u751F\u52A8\u3002"},
+  green:  {emoji:"\uD83D\uDFE2", name:"\u68EE\u6797\u7EFF", tag:"\u6C89\u9759\u7684\u6DF1\u5EA6\u966A\u4F34\u8005", bg:"linear-gradient(135deg,#2d8a5e,#52b788)", circle:"linear-gradient(135deg,#1b5e3a,#40916c)", desc:"\u4F60\u50CF\u4E00\u7247\u5B81\u9759\u7684\u68EE\u6797\uFF0C\u64C5\u957F\u503E\u542C\u548C\u5171\u60C5\u3002\u4F60\u4E0D\u4E89\u4E0D\u62A2\uFF0C\u5374\u603B\u80FD\u7ED9\u8EAB\u8FB9\u4EBA\u6070\u5230\u597D\u5904\u7684\u6170\u85C9\u3002\u4F60\u8868\u9762\u88AB\u52A8\uFF0C\u5185\u5FC3\u5374\u6709\u6781\u5176\u575A\u97E7\u7684\u5B9A\u89C1\u3002\u4F60\u7684\u529B\u91CF\u662F\u8BA9\u4EBA\u5B89\u5FC3\uFF0C\u4E0D\u5FC5\u65F6\u523B\u8BC1\u660E\u81EA\u5DF1\u201C\u6709\u7528\u201D\u3002<br><br><b>\u63D0\u9192\uFF1A</b>\u8BB0\u5F97\u7ED9\u60C5\u7EEA\u7559\u4E00\u9053\u8FB9\u754C\uFF0C\u522B\u8BA9\u5438\u6536\u592A\u591A\u4ED6\u4EBA\u7684\u91CD\u91CF\u3002"},
+  orange: {emoji:"\uD83D\uDFE1", name:"\u843D\u65E5\u6A58", tag:"\u6E29\u6696\u7684\u8054\u7ED3\u7F16\u7EC7\u8005", bg:"linear-gradient(135deg,#d4776b,#e8a87c)", circle:"linear-gradient(135deg,#b5533e,#d4875c)", desc:"\u4F60\u7684\u9690\u85CF\u4EBA\u683C\u662F\u4E00\u8F6E\u5C0F\u592A\u9633\uFF0C\u4EAB\u53D7\u4EBA\u7FA4\uFF0C\u64C5\u957F\u5236\u9020\u5FEB\u4E50\u3002\u201C\u6709\u4F60\u5728\u5C31\u4E0D\u4F1A\u51B7\u573A\u201D\u662F\u4F60\u6700\u5E38\u6536\u5230\u7684\u8BC4\u4EF7\u3002\u4F60\u7684\u80FD\u91CF\u6765\u81EA\u4EBA\u4E0E\u4EBA\u7684\u5171\u9E23\uFF0C\u5173\u7CFB\u662F\u4F60\u6700\u73CD\u89C6\u7684\u571F\u58E4\u3002<br><br><b>\u5C0F\u6CE8\uFF1A</b>\u70ED\u95F9\u4E4B\u540E\uFF0C\u8BF7\u4E5F\u4E3A\u81EA\u5DF1\u7559\u4E00\u5BA4\u9759\u9ED8\u3002\u72EC\u5904\u4E0D\u662F\u5B64\u72EC\uFF0C\u662F\u7ED9\u5C0F\u592A\u9633\u7684\u5145\u7535\u65F6\u95F4\u3002"},
+  red:    {emoji:"\uD83D\uDD34", name:"\u706B\u7130\u7EA2", tag:"\u65E0\u754F\u7684\u5192\u9669\u5F15\u71C3\u8005", bg:"linear-gradient(135deg,#c94c6e,#e8637a)", circle:"linear-gradient(135deg,#9a2540,#c94c6e)", desc:"\u4F60\u4F53\u5185\u4F4F\u7740\u4E00\u4E2A\u6C38\u8FDC\u597D\u5947\u7684\u5C0F\u5B69\u3002\u65B0\u4E8B\u7269\u8BA9\u4F60\u53CC\u773C\u53D1\u5149\uFF0C\u884C\u52A8\u529B\u6781\u5F3A\uFF0C\u201C\u65E0\u804A\u201D\u662F\u4F60\u6700\u5927\u7684\u654C\u4EBA\u3002\u4F60\u603B\u80FD\u628A\u65B0\u9C9C\u611F\u5E26\u7ED9\u8EAB\u8FB9\u4EBA\uFF0C\u662F\u670B\u53CB\u5708\u91CC\u7B2C\u4E00\u4E2A\u5C1D\u9C9C\u7684\u4EBA\u3002<br><br><b>\u6CE8\u610F\uFF1A</b>\u70ED\u8840\u4E0A\u5934\u65F6\uFF0C\u5148\u95EE\u81EA\u5DF1\u4E00\u53E5\u201C\u8FD9\u771F\u7684\u91CD\u8981\u5417\u201D\uFF0C\u80FD\u8BA9\u706B\u7130\u70E7\u5F97\u66F4\u4E45\u66F4\u7A33\u3002"},
+  purple: {emoji:"\uD83D\uDFE3", name:"\u66AE\u5149\u7D2B", tag:"\u6DF1\u9082\u7684\u77DB\u76FE\u521B\u4F5C\u8005", bg:"linear-gradient(135deg,#7b5ea7,#a88bd4)", circle:"linear-gradient(135deg,#4a2d6e,#7b5ea7)", desc:"\u4F60\u7684\u6027\u683C\u5C42\u6B21\u6781\u4E3A\u4E30\u5BCC\uFF0C\u70ED\u70C8\u4E0E\u758F\u79BB\u53EF\u4EE5\u77AC\u95F4\u5207\u6362\uFF0C\u7406\u6027\u5206\u6790\u65F6\u7A81\u7136\u611F\u6027\u5F25\u6F2B\u3002\u8FD9\u4EFD\u77DB\u76FE\u8BA9\u4F60\u62E5\u6709\u6781\u5F3A\u7684\u521B\u9020\u529B\uFF0C\u4E5F\u5BB9\u6613\u6ED1\u5165\u5185\u8017\u3002\u4F60\u4E0D\u9700\u8981\u88AB\u6240\u6709\u4EBA\u7406\u89E3\uFF0C\u90A3\u4E0D\u662F\u4F60\u7684\u71C3\u6599\u3002\u53EA\u8981\u4F60\u6301\u7EED\u521B\u9020\u3001\u8868\u8FBE\u6216\u6784\u5EFA\u70B9\u4EC0\u4E48\uFF0C\u4F60\u5C31\u4F1A\u5728\u6B64\u95F4\u95EA\u95EA\u53D1\u5149\u3002"}
+};
+
+var optBtns = document.querySelectorAll(".opt");
+for (var i = 0; i < optBtns.length; i++) {
+  optBtns[i].addEventListener("click", function() {
+    var qi = parseInt(this.getAttribute("data-q"));
+    var sc = parseInt(this.getAttribute("data-s"));
+    pick(this, qi, sc);
+  });
+}
+
+function pick(el, qi, sc) {
+  var opts = el.parentNode.children;
+  for (var k = 0; k < opts.length; k++) opts[k].className = "opt";
+  el.className = "opt picked";
+  ans[qi] = sc;
+  document.getElementById("c" + qi).className = "qc done";
+  var done = 0;
+  for (var k = 0; k < 25; k++) { if (ans[k] >= 0) done++; }
+  document.getElementById("pBar").style.width = (done * 4) + "%";
+  document.getElementById("pTxt").textContent = done + " / 25";
+  document.getElementById("goBtn").disabled = (done < 25);
+  if (done === 25) document.getElementById("goBtn").scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+document.getElementById("goBtn").addEventListener("click", function() {
+  var total = 0;
+  for (var k = 0; k < 25; k++) total += ans[k];
+  var r;
+  if (total <= 14) r = results.blue;
+  else if (total <= 29) r = results.green;
+  else if (total <= 44) r = results.orange;
+  else if (total <= 59) r = results.red;
+  else r = results.purple;
+
+  document.getElementById("rc").innerHTML =
+    '<div class="rc-banner" style="background:' + r.bg + '">' +
+      '<div class="rc-circle" style="background:' + r.circle + '">' + r.emoji + '</div>' +
+      '<div class="rc-name">' + r.name + '</div>' +
+      '<div class="rc-tag">' + r.tag + '</div>' +
+    '</div>' +
+    '<div class="rc-body">' +
+      '<h3>\u4F60\u7684\u6027\u683C\u8272\u5F69</h3>' +
+      '<div class="rd">' + r.desc + '</div>' +
+      '<div class="rc-actions">' +
+        '<button class="rbtn rbtn-primary" onclick="location.reload()">\uD83D\uDD04 \u91CD\u65B0\u6D4B\u8BD5</button>' +
+        '<button class="rbtn rbtn-ghost" id="shareBtn">\uD83D\uDCE8 \u5206\u4EAB\u7ED9\u670B\u53CB</button>' +
+      '</div>' +
+    '</div>';
+  document.getElementById("ov").className = "ov on";
+  document.body.style.overflow = "hidden";
+  window._curResult = r;
+  document.getElementById("shareBtn").addEventListener("click", shareResult);
+});
+
+document.getElementById("ovBg").addEventListener("click", function() {
+  document.getElementById("ov").className = "ov";
+  document.body.style.overflow = "";
+});
+
+function shareResult() {
+  document.getElementById("sharePanel").className = "share-panel on";
+  document.getElementById("shareOverlay").className = "share-overlay on";
+}
+
+document.getElementById("shareOverlay").addEventListener("click", function() {
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+});
+
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast on";
+  setTimeout(function(){ t.className = "toast"; }, 2000);
+}
+
+function copyText(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function(){ showToast("\u94FE\u63A5\u5DF2\u590D\u5236\uFF01"); });
+  } else {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    showToast("\u94FE\u63A5\u5DF2\u590D\u5236\uFF01");
+  }
+}
+
+var shareUrl = location.href;
+var shareText = "\u6211\u521A\u6D4B\u4E86\u201C\u9690\u85CF\u6027\u683C\u989C\u8272\u201D\u6D4B\u8BD5\uFF0C\u5FEB\u6765\u8BD5\u8BD5\uFF01";
+
+document.getElementById("shareWx").addEventListener("click", function() {
+  var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(shareUrl);
+  document.getElementById("rc").innerHTML =
+    '<div class="qr-box">' +
+      '<img src="' + qrUrl + '" width="200" height="200" alt="QR">' +
+      '<p>\u7528\u5FAE\u4FE1\u626B\u4E00\u626B\u5206\u4EAB\u7ED9\u670B\u53CB</p>' +
+      '<div style="margin-top:16px"><button class="rbtn rbtn-ghost" onclick="document.getElementById(\'ov\').className=\'ov\'">\u5173\u95ED</button></div>' +
+    '</div>';
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+  document.getElementById("ov").className = "ov on";
+});
+
+document.getElementById("shareQq").addEventListener("click", function() {
+  var u = "https://connect.qq.com/widget/shareqq/index.html?url=" + encodeURIComponent(shareUrl) + "&title=" + encodeURIComponent(shareText);
+  window.open(u, "_blank");
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+});
+
+document.getElementById("shareLink").addEventListener("click", function() {
+  copyText(shareUrl);
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+});
+
+document.getElementById("shareImg").addEventListener("click", function() {
+  document.getElementById("sharePanel").className = "share-panel";
+  document.getElementById("shareOverlay").className = "share-overlay";
+  saveAsImage();
+});
+
+function saveAsImage() {
+  if (!window._curResult) return;
+  var r = window._curResult;
+  var card = document.getElementById("imgCard");
+  card.innerHTML =
+    '<div class="ic-banner" style="background:' + r.bg + '">' +
+      '<div class="ic-circle" style="background:' + r.circle + '">' + r.emoji + '</div>' +
+      '<div class="ic-name">' + r.name + '</div>' +
+      '<div class="ic-tag">' + r.tag + '</div>' +
+    '</div>' +
+    '<div class="ic-body">' +
+      '<div class="ic-title">\u201C\u6211\u7684\u9690\u85CF\u6027\u683C\u8272\u5F69\u201D</div>' +
+      '<div class="ic-desc">' + r.desc + '</div>' +
+    '</div>' +
+    '<div class="ic-footer">\u2014 \u6D4B\u6D4B\u4F60\u7684\u9690\u85CF\u6027\u683C\u989C\u8272 \u2014</div>';
+  showToast("\u6B63\u5728\u751F\u6210\u56FE\u7247...");
+  setTimeout(function() {
+    html2canvas(card, {scale:2, useCORS:true, backgroundColor:"#fff"}).then(function(canvas) {
+      canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.download = "\u6027\u683C\u989C\u8272\u7ED3\u679C.png";
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+        showToast("\u56FE\u7247\u5DF2\u4FDD\u5B58\uFF01");
+      }, "image/png");
+    }).catch(function() {
+      showToast("\u751F\u6210\u5931\u8D25\uFF0C\u8BF7\u622A\u56FE\u5206\u4EAB");
+    });
+  }, 100);
+}
+</script>
+</body>
+</html>
